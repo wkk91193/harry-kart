@@ -1,4 +1,4 @@
-package se.atg.service.harrykart.java.model;
+package se.atg.service.harrykart.java.models;
 
 public class RaceResult {
     private final int position;
