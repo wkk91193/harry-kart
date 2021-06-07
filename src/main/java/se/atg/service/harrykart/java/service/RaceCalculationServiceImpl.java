@@ -1,6 +1,7 @@
 package se.atg.service.harrykart.java.service;
 
 import org.springframework.stereotype.Service;
+import se.atg.service.harrykart.java.constants.CommonConstants;
 import se.atg.service.harrykart.java.constants.ExceptionMessageConstants;
 import se.atg.service.harrykart.java.constants.RaceInfoConstants;
 import se.atg.service.harrykart.java.exceptions.UserInputException;
@@ -32,7 +33,7 @@ public class RaceCalculationServiceImpl implements RaceCalculationService {
             String participantName = participantTypeList.get(i).getName();
 
             if(CalculationUtils.isNullOrEmptyString(participantName))
-                throw new UserInputException(ExceptionMessageConstants.NULL_OR_EMPTY_ARGUEMENTS_FOUND +" for "+RaceInfoConstants.PARTICIPANT_NAME_FIELD);
+            throw new UserInputException(ExceptionMessageConstants.NULL_OR_EMPTY_ARGUEMENTS_FOUND +" "+CommonConstants.FOR+" "+RaceInfoConstants.PARTICIPANT_NAME_FIELD);
 
             RaceResult result = new RaceResult(i+1,participantName);
             resultsList.add(result);
@@ -83,7 +84,7 @@ public class RaceCalculationServiceImpl implements RaceCalculationService {
         BigInteger powerUpBigInt = loopType.getLane().get(laneIndex).getValue();
 
         if(CalculationUtils.isNullValue(powerUpBigInt) || !CalculationUtils.isNumeric(powerUpBigInt.toString()))
-            throw new UserInputException(ExceptionMessageConstants.INVALID_NUMBER+" for "+RaceInfoConstants.POWERUPS_PROPERTY);
+            throw new UserInputException(ExceptionMessageConstants.INVALID_NUMBER+" "+CommonConstants.FOR+" "+RaceInfoConstants.POWERUPS_PROPERTY);
 
          return powerUpBigInt.intValue() + powerUp;
 
@@ -94,7 +95,7 @@ public class RaceCalculationServiceImpl implements RaceCalculationService {
         BigInteger baseSpeed=participantType.getBaseSpeed();
 
         if (CalculationUtils.isNullValue(baseSpeed) || !CalculationUtils.isNumeric(baseSpeed.toString()))
-            throw new UserInputException(ExceptionMessageConstants.INVALID_NUMBER+ " for "+RaceInfoConstants.BASE_SPEED_FIELD);
+            throw new UserInputException(ExceptionMessageConstants.INVALID_NUMBER+" "+CommonConstants.FOR+" "+RaceInfoConstants.BASE_SPEED_FIELD);
 
         //time taken to complete a loop by a horse
         return CalculationUtils.CalculateTimeBasedonSpeedAndDistance
@@ -111,7 +112,7 @@ public class RaceCalculationServiceImpl implements RaceCalculationService {
         BigInteger numberOfLoops = harryKartType.getNumberOfLoops();
 
         if(CalculationUtils.isNullValue(numberOfLoops) || !CalculationUtils.isNumeric(numberOfLoops.toString()))
-                throw new UserInputException(ExceptionMessageConstants.INVALID_NUMBER+ " for "+RaceInfoConstants.NUMBER_OF_LOOPS_FIELD);
+                throw new UserInputException(ExceptionMessageConstants.INVALID_NUMBER+" "+CommonConstants.FOR+" "+RaceInfoConstants.NUMBER_OF_LOOPS_FIELD);
 
         //based on the loop index populate the map
         for (int loopIndex = 0; loopIndex < harryKartType.getNumberOfLoops().intValue(); loopIndex++) {
