@@ -1,10 +1,14 @@
 package se.atg.service.harrykart.java.rest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import se.atg.service.harrykart.java.constants.ApiConstants;
+import se.atg.service.harrykart.java.constants.CommonConstants;
 import se.atg.service.harrykart.java.constants.ExceptionMessageConstants;
 import se.atg.service.harrykart.java.exceptions.UserInputException;
 import se.atg.service.harrykart.java.models.HarryKartType;
@@ -13,10 +17,10 @@ import se.atg.service.harrykart.java.models.RaceResult;
 import se.atg.service.harrykart.java.response.ResponseGenerator;
 import se.atg.service.harrykart.java.service.RaceCalculationService;
 import se.atg.service.harrykart.java.service.ReadDataService;
-import se.atg.service.harrykart.java.service.WriteDataService;
 
 import javax.xml.bind.JAXBElement;
 import java.util.List;
+
 
 @RestController
 @RequestMapping("/java/api")
@@ -25,6 +29,7 @@ public class HarryKartController {
     private final RaceCalculationService raceCalculationService;
     private final ReadDataService readDataService;
     private final ResponseGenerator responseGenerator;
+    private static final Logger LOG =  LoggerFactory.getLogger(HarryKartController.class);
 
     @Autowired
     public HarryKartController(final RaceCalculationService raceCalculationService,
@@ -49,6 +54,7 @@ public class HarryKartController {
             JAXBElement<HarryKartType> readData = this.readDataService.readXmlData(xmlString, new ObjectFactory());
             List<RaceResult> result = raceCalculationService.calculateWinners(readData.getValue());
             responseMessage = responseGenerator.generateResponse(HttpStatus.OK.value(),result);
+            LOG.info(ApiConstants.CALCULATION_SUCCESSFUL+" "+CommonConstants.FOR+" "+ApiConstants.INPUT+" "+xmlString+ApiConstants.OUTPUT+" "+responseMessage);
 
         }catch (Exception ex){
 
@@ -57,7 +63,7 @@ public class HarryKartController {
             }else{
                 responseMessage =responseGenerator.generateResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), ExceptionMessageConstants.SOMETHING_WENT_WRONG);
             }
-
+            LOG.error(ApiConstants.CALCULATION_UNSUCCESSFUL+" "+CommonConstants.FOR+" "+ApiConstants.INPUT+" "+xmlString+ApiConstants.OUTPUT+" "+ex.getMessage());
         }
         return responseMessage;
 
