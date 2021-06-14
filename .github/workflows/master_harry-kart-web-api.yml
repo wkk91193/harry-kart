@@ -11,6 +11,18 @@ on:
 
 jobs:
 
+  compile:
+    runs-on: windows-latest
+    name: Running Java ${{ matrix.java }} compile
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Java version
+      uses: actions/setup-java@v1
+      with:
+        java-version: '11'
+    - name: Compile code
+      run: mvn compile
+
   test:
     runs-on: windows-latest
     name: Running tests
