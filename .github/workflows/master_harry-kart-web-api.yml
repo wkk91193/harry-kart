@@ -10,6 +10,20 @@ on:
   workflow_dispatch:
 
 jobs:
+
+  test:
+    runs-on: windows-latest
+    name: Running tests
+    needs: compile
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Java version
+        uses: actions/setup-java@v1
+        with:
+          java-version: '11'
+      - name: Run unit tests
+        run: mvn test
+
   build:
     runs-on: windows-latest
 
