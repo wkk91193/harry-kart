@@ -1,6 +1,7 @@
 package se.atg.service.harrykart.java.rest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.microsoft.applicationinsights.TelemetryClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,16 +33,20 @@ public class HarryKartController {
     private final ReadDataService readDataService;
     private final ResponseGenerator responseGenerator;
     private static final Logger LOG =  LoggerFactory.getLogger(HarryKartController.class);
+    private final TelemetryClient telemetryClient;
 
     @Autowired
     public HarryKartController(final RaceCalculationService raceCalculationService,
                                final ReadDataService readDataService,
-                               final ResponseGenerator responseGenerator){
+                               final ResponseGenerator responseGenerator,
+                               final TelemetryClient telemetryClient){
+
 
 
         this.raceCalculationService = raceCalculationService;
         this.readDataService = readDataService;
         this.responseGenerator =responseGenerator;
+        this.telemetryClient =telemetryClient;
     }
 
 
@@ -61,7 +66,6 @@ public class HarryKartController {
             LOG.info(ApiConstants.CALCULATION_SUCCESSFUL+" "+CommonConstants.FOR+" "+ApiConstants.INPUT+" "+xmlString+ApiConstants.OUTPUT+" "+responseMessage);
             status = HttpStatus.OK;
 
-
         }catch (Exception ex){
 
             if (ex instanceof UserInputException){
@@ -74,7 +78,8 @@ public class HarryKartController {
             }
 
             LOG.error(ApiConstants.CALCULATION_UNSUCCESSFUL+" "+CommonConstants.FOR+" "+ApiConstants.INPUT+" "+xmlString+ApiConstants.OUTPUT+" "+ex.getMessage());
-
+            telemetryClient.trackEvent("Error");
+            telemetryClient.trackTrace("Exception: " + ex.getMessage());
         }
         return  ResponseEntity.status(status).body(responseMessage);
     }
