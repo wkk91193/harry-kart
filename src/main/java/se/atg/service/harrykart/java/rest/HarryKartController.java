@@ -46,7 +46,7 @@ public class HarryKartController {
         this.raceCalculationService = raceCalculationService;
         this.readDataService = readDataService;
         this.responseGenerator =responseGenerator;
-        this.telemetryClient =telemetryClient;
+        this.telemetryClient = telemetryClient;
     }
 
 
@@ -78,8 +78,9 @@ public class HarryKartController {
             }
 
             LOG.error(ApiConstants.CALCULATION_UNSUCCESSFUL+" "+CommonConstants.FOR+" "+ApiConstants.INPUT+" "+xmlString+ApiConstants.OUTPUT+" "+ex.getMessage());
-            telemetryClient.trackEvent("Error");
-            telemetryClient.trackTrace("Exception: " + ex.getMessage());
+            this.telemetryClient.trackEvent("Error");
+            this.telemetryClient.trackTrace("Exception message: " + ex.getMessage()+ "stacktrace: "+ex.toString());
+
         }
         return  ResponseEntity.status(status).body(responseMessage);
     }
