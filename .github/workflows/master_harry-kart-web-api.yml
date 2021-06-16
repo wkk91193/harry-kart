@@ -29,12 +29,12 @@ jobs:
     steps:
       - name: Adding secret
         run: |
-            echo $DEV_PROP_FILE >> src/main/resources/application.properties
+            echo $DEV_PROP_FILE >> ../../src/main/resources/application.properties
             cat src/main/resources/application.properties
         shell: bash
         env:
           DEV_PROP_FILE : ${{secrets.AZURE_APPLICATION_INSIGHTS_INSTRUMENTATION_KEY}}
-        
+
   test:
     runs-on: windows-latest
     name: Running tests
