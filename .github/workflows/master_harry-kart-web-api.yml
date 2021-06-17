@@ -51,9 +51,9 @@ jobs:
 
     - name: Adding secret
       run: |
-          appinsightKey="azure.application-insights.instrumentation-key="
-          value= "${appinsightKey} ${$DEV_PROP_FILE}"
-          echo value >> src/main/resources/application.properties
+          appinsightKeyValue='azure.application-insights.instrumentation-key='
+          appinsightKeyValue+= $DEV_PROP_FILE
+          echo appinsightKeyValue >> src/main/resources/application.properties
           cat src/main/resources/application.properties
       shell: bash
       env:
