@@ -23,18 +23,7 @@ jobs:
     - name: Compile code
       run: mvn compile
 
-  add-secret:
-    runs-on: windows-latest
-    name: Adding secrets
-    steps:
-      - uses: actions/checkout@v2
-      - name: Adding secret
-        run: |
-            echo $DEV_PROP_FILE >> ../../src/main/resources/application.properties
-            cat src/main/resources/application.properties
-        shell: bash
-        env:
-          DEV_PROP_FILE : ${{secrets.AZURE_APPLICATION_INSIGHTS_INSTRUMENTATION_KEY}}
+
 
   test:
     runs-on: windows-latest
@@ -61,12 +50,12 @@ jobs:
         java-version: '11'
 
     - name: Adding secret
-        run: |
-          echo $DEV_PROP_FILE >> src/main/resources/application.properties
+      run: |
+          echo $DEV_PROP_FILE >> ../../src/main/resources/application.properties
           cat src/main/resources/application.properties
-        shell: bash
-        env:
-          DEV_PROP_FILE: ${{secrets.AZURE_APPLICATION_INSIGHTS_INSTRUMENTATION_KEY}}
+      shell: bash
+      env:
+        DEV_PROP_FILE: ${{secrets.AZURE_APPLICATION_INSIGHTS_INSTRUMENTATION_KEY}}
 
     - name: Build with Maven
       run: mvn clean install
