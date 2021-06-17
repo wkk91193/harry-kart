@@ -59,6 +59,11 @@ jobs:
       env:
         DEV_PROP_FILE: ${{secrets.AZURE_APPLICATION_INSIGHTS_INSTRUMENTATION_KEY}}
 
+    - name: Output application.properties
+      uses: actions/upload-artifact@v2
+      with:
+        name: prop-file
+        path: '${{ github.workspace }}/src/main/resources/application.properties'
 
     - name: Build with Maven
       run: mvn clean install
