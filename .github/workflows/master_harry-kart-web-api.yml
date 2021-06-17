@@ -24,16 +24,15 @@ jobs:
 
     - name: Adding secret
       run: |
-          echo $DEV_PROP_FILE >> src/main/resources/application.properties
+          appinsightKey='azure.application-insights.instrumentation-key='
+          appinsightKeyValue= "$appinsightKey"${{secrets.AZURE_APPLICATION_INSIGHTS_INSTRUMENTATION_KEY}}
+          echo appinsightKeyValue >> src/main/resources/application.properties
           cat src/main/resources/application.properties
       shell: bash
-      env:
-        DEV_PROP_FILE: ${{secrets.AZURE_APPLICATION_INSIGHTS_INSTRUMENTATION_KEY}}
 
     - name: Output application.properties
       uses: actions/upload-artifact@v2
       with:
         name: prop-file
         path: '${{github.workspace}}/src/main/resources/application.properties'
-
 
