@@ -11,6 +11,33 @@ on:
 
 jobs:
 
+  compile:
+    runs-on: windows-latest
+    name: Running Java ${{ matrix.java }} compile
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Java version
+      uses: actions/setup-java@v1
+      with:
+        java-version: '11'
+    - name: Compile code
+      run: mvn compile
+
+
+
+  test:
+    runs-on: windows-latest
+    name: Running tests
+    needs: compile
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Java version
+        uses: actions/setup-java@v1
+        with:
+          java-version: '11'
+      - name: Run unit tests
+        run: mvn test
+
   build:
     runs-on: windows-latest
 
@@ -23,13 +50,37 @@ jobs:
         java-version: '11'
 
     - name: Adding secret
-      run: |
+        run: |
           printf ${{secrets.AZURE_APPLICATION_INSIGHTS_INSTRUMENTATION_KEY}} >> src/main/resources/application.properties
-      shell: bash
+        shell: bash
 
-    - name: Output application.properties
+    - name: Build with Maven
+      run: mvn clean install
+
+    - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v2
       with:
-        name: prop-file
-        path: '${{github.workspace}}/src/main/resources/application.properties'
+        name: java-app
+        path: '${{ github.workspace }}/target/*.jar'
 
+  deploy:
+    runs-on: windows-latest
+    needs: build
+    environment:
+      name: 'production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+    - name: Download artifact from build job
+      uses: actions/download-artifact@v2
+      with:
+        name: java-app
+
+    - name: Deploy to Azure Web App
+      id: deploy-to-webapp
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'harry-kart-web-api'
+        slot-name: 'production'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_c1d922ca006d4e828ca9710ff6d19933 }}
+        package: '*.jar'
