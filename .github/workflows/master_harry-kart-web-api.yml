@@ -49,6 +49,7 @@ jobs:
       with:
         java-version: '11'
 
+    - uses: actions/checkout@v2
     - name: Adding secret
       run: |
           echo $DEV_PROP_FILE >> ../../src/main/resources/application.properties
