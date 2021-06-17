@@ -23,6 +23,19 @@ jobs:
     - name: Compile code
       run: mvn compile
 
+  add-secret:
+    runs-on: windows-latest
+    name: Adding secrets
+    steps:
+      - uses: actions/checkout@v2
+      - name: Adding secret
+        run: |
+            echo $DEV_PROP_FILE >> ../../src/main/resources/application.properties
+            cat src/main/resources/application.properties
+        shell: bash
+        env:
+          DEV_PROP_FILE : ${{secrets.AZURE_APPLICATION_INSIGHTS_INSTRUMENTATION_KEY}}
+
   test:
     runs-on: windows-latest
     name: Running tests
@@ -46,11 +59,12 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: '11'
+
     - name: Adding secret
-      run: |
+        run: |
           echo $DEV_PROP_FILE >> src/main/resources/application.properties
           cat src/main/resources/application.properties
-      shell: bash
+        shell: bash
         env:
           DEV_PROP_FILE: ${{secrets.AZURE_APPLICATION_INSIGHTS_INSTRUMENTATION_KEY}}
 
