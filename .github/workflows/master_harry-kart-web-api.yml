@@ -51,11 +51,12 @@ jobs:
 
     - name: Adding secret
       run: |
-          echo $DEV_PROP_FILE >> src/main/resources/application.properties
+          echo "azure.application-insights.instrumentation-key="$DEV_PROP_FILE >> src/main/resources/application.properties
           cat src/main/resources/application.properties
       shell: bash
       env:
         DEV_PROP_FILE: ${{secrets.AZURE_APPLICATION_INSIGHTS_INSTRUMENTATION_KEY}}
+
 
     - name: Build with Maven
       run: mvn clean install

@@ -1,0 +1,348 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Harry Kart application API",
+    "description": "@project.description@",
+    "termsOfService": "http://swagger.io/terms/",
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://springdoc.org"
+    },
+    "version": "@project.version@"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Generated server url"
+    }
+  ],
+  "paths": {
+    "/java/api/play": {
+      "post": {
+        "tags": [
+          "harry-kart-controller"
+        ],
+        "operationId": "playHarryKart",
+        "requestBody": {
+          "content": {
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/HarryKartType"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GoodResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "BadResponse": {
+        "required": [
+          "badstatusCode",
+          "badresponseMessage"
+        ],
+        "type": "object",
+        "properties": {
+          "badstatusCode": {
+            "type": "integer",
+            "example": 400
+          },
+          "badresponseMessage": {
+            "type": "string",
+            "example": "Null argument found. for  participant.name"
+          }
+        }
+      },
+      "GoodResponse": {
+        "required": [
+          "goodstatusCode",
+          "goodresponseMessage"
+        ],
+        "type": "object",
+        "properties": {
+          "goodstatusCode": {
+            "type": "integer",
+            "example": 200
+          },
+          "goodresponseMessage": {
+            "type": "array",
+            "example": [
+              {
+                "position": 1,
+                "horseName": "TIMETOBELUCKY"
+              },
+              {
+                "position": 2,
+                "horseName": "HERCULES BOKO"
+              },
+              {
+                "position": 3,
+                "horseName": "CARGO DOOR"
+              }
+            ],
+            "items": {
+              "$ref": "#/components/schemas/GoodResponseMessage"
+            }
+          }
+        }
+      },
+      "GoodResponseMessage": {
+        "type": "object",
+        "properties": {
+          "position": {
+            "type": "integer",
+            "example": 1
+          },
+          "horseName": {
+            "type": "string",
+            "example": "TIMETOBELUCKY"
+          }
+        }
+      },
+      "HarryKartType": {
+        "required": [
+          "numberOfLoops",
+          "powerUps",
+          "startList"
+        ],
+        "type": "object",
+        "properties": {
+          "numberOfLoops": {
+            "type": "integer",
+            "example": 3
+          },
+          "startList": {
+            "$ref": "#/components/schemas/StartListType"
+          },
+          "powerUps": {
+            "$ref": "#/components/schemas/PowerUpsType"
+          }
+        },
+        "description": "Contact to add. Cannot null or empty.",
+        "xml": {
+          "name": "HarryKartType"
+        }
+      },
+      "LaneType": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "integer"
+          },
+          "number": {
+            "type": "integer",
+            "xml": {
+              "attribute": true
+            }
+          }
+        },
+        "xml": {
+          "name": "LaneType"
+        }
+      },
+      "LoopType": {
+        "required": [
+          "lane"
+        ],
+        "type": "object",
+        "properties": {
+          "lane": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LaneType"
+            }
+          },
+          "number": {
+            "type": "integer",
+            "xml": {
+              "attribute": true
+            }
+          }
+        },
+        "description": "powerup loops",
+        "example": [
+          {
+            "lane": [
+              1,
+              1,
+              0,
+              -2
+            ]
+          },
+          {
+            "lane": [
+              1,
+              -1,
+              2,
+              -2
+            ]
+          }
+        ],
+        "xml": {
+          "name": "LoopType"
+        }
+      },
+      "ParticipantType": {
+        "required": [
+          "baseSpeed",
+          "lane",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "lane": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "baseSpeed": {
+            "type": "integer"
+          }
+        },
+        "description": "Participant List",
+        "example": [
+          {
+            "lane": "1",
+            "name": "TIMETOBELUCKY",
+            "baseSpeed": "10"
+          },
+          {
+            "lane": "2",
+            "name": "CARGO DOOR",
+            "baseSpeed": "10"
+          },
+          {
+            "lane": "3",
+            "name": "HERCULES BOKO",
+            "baseSpeed": "10"
+          },
+          {
+            "lane": "4",
+            "name": "WAIKIKI SILVIO",
+            "baseSpeed": "10"
+          }
+        ],
+        "xml": {
+          "name": "ParticipantType"
+        }
+      },
+      "PowerUpsType": {
+        "required": [
+          "loop"
+        ],
+        "type": "object",
+        "properties": {
+          "loop": {
+            "type": "array",
+            "description": "powerup loops",
+            "example": [
+              {
+                "loop": [
+                  {
+                    "lane": "1"
+                  },
+                  {
+                    "lane": "1"
+                  },
+                  {
+                    "lane": "0"
+                  },
+                  {
+                    "lane": "-2"
+                  }
+                ]
+              },
+              {
+                "loop": [
+                  {
+                    "lane": "1"
+                  },
+                  {
+                    "lane": "-1"
+                  },
+                  {
+                    "lane": "2"
+                  },
+                  {
+                    "lane": "-2"
+                  }
+                ]
+              }
+            ],
+            "items": {
+              "$ref": "#/components/schemas/LoopType"
+            }
+          }
+        },
+        "xml": {
+          "name": "PowerUpsType"
+        }
+      },
+      "StartListType": {
+        "required": [
+          "participant"
+        ],
+        "type": "object",
+        "properties": {
+          "participant": {
+            "type": "array",
+            "description": "Participant List",
+            "example": [
+              {
+                "lane": "1",
+                "name": "TIMETOBELUCKY",
+                "baseSpeed": "10"
+              },
+              {
+                "lane": "2",
+                "name": "CARGO DOOR",
+                "baseSpeed": "10"
+              },
+              {
+                "lane": "3",
+                "name": "HERCULES BOKO",
+                "baseSpeed": "10"
+              },
+              {
+                "lane": "4",
+                "name": "WAIKIKI SILVIO",
+                "baseSpeed": "10"
+              }
+            ],
+            "items": {
+              "$ref": "#/components/schemas/ParticipantType"
+            }
+          }
+        },
+        "xml": {
+          "name": "StartListType"
+        }
+      }
+    }
+  }
+}
