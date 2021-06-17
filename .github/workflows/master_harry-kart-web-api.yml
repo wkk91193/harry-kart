@@ -51,9 +51,7 @@ jobs:
 
     - name: Adding secret
       run: |
-          appinsightKeyValue='azure.application-insights.instrumentation-key='
-          appinsightKeyValue+= $DEV_PROP_FILE
-          echo appinsightKeyValue >> src/main/resources/application.properties
+          echo $DEV_PROP_FILE >> src/main/resources/application.properties
           cat src/main/resources/application.properties
       shell: bash
       env:
@@ -63,7 +61,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: prop-file
-        path: '${{ github.workspace }}/src/main/resources/application.properties'
+        path: '${{github.workspace}}/src/main/resources/application.properties'
 
     - name: Build with Maven
       run: mvn clean install
