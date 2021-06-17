@@ -50,9 +50,9 @@ jobs:
         java-version: '11'
 
     - name: Adding secret
-        run: |
+      run: |
           printf ${{secrets.AZURE_APPLICATION_INSIGHTS_INSTRUMENTATION_KEY}} >> src/main/resources/application.properties
-        shell: bash
+      shell: bash
 
     - name: Build with Maven
       run: mvn clean install
