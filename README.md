@@ -8,7 +8,7 @@ The horses run the first loop at their base speed but at the end of each loop th
 
 The power-ups/downs are numbers, negative or positive, representing how much the horse speeds up or slows down.
 
-Your task is to compute the top 3 ranking.
+This project is to compute the top 3 rankings.
 
 ## Example 1
 
@@ -34,82 +34,6 @@ Your task is to compute the top 3 ranking.
 
 ### Result
 
-| Position | Horse Name    |
-|----------|---------------|
-| 1st      | TIMETOBELUCKY |
-| 2nd      | HERCULES BOKO |
-| 3rd      | CARGO DOOR    |
-
-
-## Example 2
-
-### Input
-
-**Number of loops:** 3
-
-**Start List:**
-
-| Lane | Horse name     | Base speed |
-|------|----------------|------------|
-| 1    | TIMETOBELUCKY  | 10         |
-| 2    | CARGO DOOR     | 10         |
-| 3    | HERCULES BOKO  | 10         |
-| 4    | WAIKIKI SILVIO | 10         |
-
-**Power-Ups/Downs:**
-
-| Loop | Lane 1 | Lane 2 | Lane 3 | Lane 4 |
-|------|--------|--------|--------|--------|
-| 1    | 0      | 0      | 1      | 3      |
-| 2    | 10     | 0      | 0      | 1      |
-
-### Result
-
-| Position | Horse Name    |
-|----------|---------------|
-| 1st      | WAIKIKI SILVIO|
-| 2nd      | TIMETOBELUCKY |
-| 3rd      | HERCULES BOKO |
-
-
-## Example 3
-
-### Input
-
-**Number of loops:** 3
-
-**Start List:**
-
-| Lane | Horse name     | Base speed |
-|------|----------------|------------|
-| 1    | TIMETOBELUCKY  | 10         |
-| 2    | CARGO DOOR     | 10         |
-| 3    | HERCULES BOKO  | 10         |
-| 4    | WAIKIKI SILVIO | 10         |
-
-**Power-Ups/Downs:**
-
-| Loop | Lane 1 | Lane 2 | Lane 3 | Lane 4 |
-|------|--------|--------|--------|--------|
-| 1    | 6      | 10     | 4      | 0      |
-| 2    | 0      | -10    | 5      | 15     |
-
-### Result
-
-| Position | Horse Name    |
-|----------|---------------|
-| 1st      | HERCULES BOKO |
-| 2nd      | TIMETOBELUCKY |
-| 3rd      | WAIKIKI SILVIO|
-
-## Implementation
-The assignment has to be implemented as a spring boot application. Here you will find a boilerplate application implemented in both Java and Kotlin, choose whichever of the two you prefer. Feel free to delete the files you don't need.
-We have set the java version to 15, but you are not required to use Java 15. You can in fact set a lower Java version if you prefer, however Java 8 is minimum. Please note that the boilerplate uses the text blocks feature from Java 15 (so you might have to remove that piece of code first).
-
-The input is provided as an XML document (see examples ```/src/main/resources/input_0.xml```, ```/src/main/resources/input_1.xml``` and ```/src/main/resources/input_2.xml```),
-in case you need it we provide the XML schema for it (```/src/main/resources/input.xsd```)
-
-The output must be a json document of this form:
 ```json
 {
    "ranking": [
@@ -120,6 +44,53 @@ The output must be a json document of this form:
 }
 ```
 
-The application we provide has two rest endpoints accepting XML and returning JSON (http://localhost:8080/java/api/play and http://localhost:8080/kotlin/api/play), you can use any of them as entry point.
+## Architechure
 
-When you are done, zip the project (without the target folder) and send it back to us. You can leave the .git folder if you want.
+ ![High level architechure](https://github.com/wkk91193/harry-kart/blob/master/images/SolutionArchitechure.jpeg) 
+ 
+ The API gateway will recieve requests from the any client facing Application and direct them to their respective API endpoint where it will processed.
+ 
+
+ ## Considerations
+ 
+ 1. Code Quality : Ensured that the code is readable and obeys the SOLID, KISS principals.
+ 
+ 2. Well tested : Using integration tests, ensured that the solution achieves it's main objective and verified how it handles bad input.
+ 
+ 3. Maintainable : I have kept the functions as generic as possible to be able to be reused, as much possible. eg: read generic inputs and write generic output.
+ 
+ 
+## Additional:
+
+1. API Gateway: In order provide security to the API considering overuse and abuse and for more control over monitoring the usage.This also comes with a developer portal experience  so that the developer can test the APIs on the browser prior integration.
+
+2. CI/CD pipeline: Using Github actions all the changes I pushed to repository will be build and it's binaries willl deployed to the API directly cutting any manual work of publishing APIs and identifying problems early.
+
+3. Logging/Monitoring: I have enabled the use log streaming and application insights to monitor all incoming requests, thereby easier for investigating any failures or anomalies.
+
+4. API documentation: For a seemless integration experience, API documentation is valuable. I have enabled Swagger API documentation for the endpoint.
+
+
+## API Gateway Developer Portal
+
+https://harry-kart-apim.developer.azure-api.net
+
+_Note: Click on Explore API button to see the list of the APIs_
+
+
+## How to run locally.
+
+0. Please copy and replace the application.properties file provide via email at src/resources/
+
+1. Open the solution on IntelliJ
+
+2. Build the project 
+
+3. Run solution.
+
+4. Use swagger Try out option/Postman rest client to test locally. (http://localhost:8080/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config#/harry-kart-controller/playHarryKart)
+
+
+
+
+
