@@ -36,11 +36,21 @@ This project is to compute the top 3 rankings.
 
 ```json
 {
-   "ranking": [
-      {"position": 1, "horse": "TIMETOBELUCKY"},
-      {"position": 2, "horse": "HERCULES BOKO"},
-      {"position": 3, "horse": "CARGO DOOR"}
-   ]
+    "statusCode": 200,
+    "responseMessage": [
+        {
+            "position": 1,
+            "horseName": "TIMETOBELUCKY"
+        },
+        {
+            "position": 2,
+            "horseName": "HERCULES BOKO"
+        },
+        {
+            "position": 3,
+            "horseName": "CARGO DOOR"
+        }
+    ]
 }
 ```
 
