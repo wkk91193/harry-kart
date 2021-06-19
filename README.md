@@ -57,7 +57,7 @@ This project is to compute the top 3 rankings.
  
  2. Well tested : Using integration tests, ensured that the solution achieves it's main objective and verified how it handles bad input.
  
- 3. Maintainable : I have kept the functions as generic as possible to be able to be reused, as much possible. eg: read generic inputs and write generic output.
+ 3. Maintainable : I have kept the functions as generic as possible to be able to be reused, as much as possible. eg: read generic inputs and write generic output.
  
  
 ## Additional:
@@ -88,7 +88,7 @@ _Note: Click on Explore API button to see the list of the APIs_
 
 3. Run solution.
 
-4. Use swagger Try out option/Postman rest client to test locally. (http://localhost:8080/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config#/harry-kart-controller/playHarryKart)
+4. See developer portal to see the API documentation to  try out locally on a rest client.
 
 
 
